@@ -55,8 +55,8 @@
                                                endif;
                                             endforeach;?>
                                         </td>
-                                        <td>रू <?php echo $product->cost;?></td>
-                                        <td>रू <?php echo $product->selling;?></td>
+                                        <td>Rs: <?php echo $product->cost;?></td>
+                                        <td>Rs: <?php echo $product->selling;?></td>
                                         <td><?php echo $product->stock;?></td>
                                         <td class="td-actions">
                                             <a href="#"><i class="la la-edit edit"></i></a>

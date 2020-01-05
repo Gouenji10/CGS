@@ -42,10 +42,10 @@
                                                 <i class="la la-circle-o-notch"></i>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <a href="#" class="dropdown-item remove"> 
+                                                <a href="#" class="dropdown-item remove" data-id="<?php echo $account->id;?>"> 
                                                     <i class="la la-trash"></i>Delete
                                                 </a>
-                                                <a href="#" class="dropdown-item"> 
+                                                <a href="#" class="dropdown-item edit" data-id="<?php echo $account->id;?>"> 
                                                     <i class="la la-edit"></i>Edit
                                                 </a>
                                             </div>
@@ -112,3 +112,14 @@
     </div>
 </div>
 <!-- End Large Modal -->
+
+<!-- Begin Large Modal -->
+<div id="edit" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+<!-- End Large Modal -->
+
+

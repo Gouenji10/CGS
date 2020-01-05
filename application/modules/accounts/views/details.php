@@ -48,9 +48,9 @@
                                         <td><span class="text-primary"><?php echo $i;?></span></td>
                                         <td><?php echo $transaction->date;?></td>
                                         <td><?php echo $transaction->details;?></td>
-                                        <td><?php echo $transaction->debit==0?'--':$transaction->debit;?></td>
-                                        <td><?php echo $transaction->credit==0?'--':$transaction->credit;?></td>
-                                        <td><?php echo $transaction->balance;?></td>
+                                        <td><?php echo $transaction->debit==0?'--':'Rs: '.$transaction->debit;?></td>
+                                        <td><?php echo $transaction->credit==0?'--':'Rs: '.$transaction->credit;?></td>
+                                        <td>Rs: <?php echo $transaction->balance;?></td>
                                     </tr>
                                     <?php $i++;?>
                                 <?php endforeach;?>

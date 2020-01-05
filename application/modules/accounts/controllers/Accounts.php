@@ -25,7 +25,7 @@
 						echo 'ok';
 						exit();
 					else:
-						echo "Failed To Added Party Successfully.";
+						echo "Failed To Add Party Successfully.";
 						exit();
 					endif;
 				else:
@@ -129,6 +129,53 @@
 					echo validation_errors();
 				endif;
 			}
+		}
+
+		public function edit($id){
+			if($this->input->post()):
+				$this->form_validation->set_rules('party_name','Party Name','required');
+				$this->form_validation->set_rules('party_address','Party Address','required');
+				$this->form_validation->set_rules('party_phone','Party Phone','required');
+				if($this->form_validation->run()==true):
+					$data=array(
+						'name'=>$this->input->post('party_name'),
+						'address'=>$this->input->post('party_address'),
+						'phone'=>$this->input->post('party_phone'),
+					);
+					if($this->accounts_m->update(config('tbl_party'),$data,array('id'=>$id))):
+						echo 'ok';
+						exit();
+					else:
+						echo "Failed To Update Party Successfully.";
+						exit();
+					endif;
+				else:
+					echo validation_errors();
+					exit();
+				endif;
+			endif;
+		}
+		
+		public function delete(){
+			if($this->input->is_ajax_request()):
+				$id=$this->input->post('id');
+				if($this->accounts_m->delete(config('tbl_party'),array('id'=>$id))):
+					echo 'ok';
+					exit;
+				else:
+					echo "Failed To delete Party Account";
+					exit;
+				endif;
+			endif;
+			exit;
+		}
+
+		public function edit_modal($id){
+			if($this->input->is_ajax_request()):
+				$tbl_data=$this->accounts_m->get(config('tbl_party'),array('id'=>$id));
+				echo $this->load->view('edit',$tbl_data,true);
+				exit;
+			endif;
 		}
 	}
 	

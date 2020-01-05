@@ -95,13 +95,13 @@ $(document).ready(function(){
 		return false;
 	});
 
-	// for adding Products
+	// for adding Accounts
 	$('form#add_accounts').on('submit',function(){
 		var action=$(this).attr('action');
 		$.post(action,$(this).serialize(),function(response){
 			if (response=='ok') {
 				new Noty({
-				    text:'Product Added Successfully.',
+				    text:'Account Added Successfully.',
 				    type: 'success',
     				layout: 'topRight',
     				closeWith   : ['click','timeout'],
@@ -262,6 +262,67 @@ $(document).ready(function(){
 	$('#product_result').on('click','li',function(){
 		$('#product_sales').find('input[name="product_name"]').val($(this).text());
 		$('#product_result').fadeOut();
+	});
+
+	// for Account Delete
+	$('.Accounts').find('.dropdown-item.remove').on('click',function(){
+		var id =$(this).data('id');
+		
+		$.post(site_url+'accounts/delete',{id:id},function(response){
+			if(response=='ok'){
+				new Noty({
+				    text:'Party Account Deleted Successfully.',
+				    type: 'success',
+    				layout: 'topRight',
+    				closeWith   : ['click','timeout'],
+                    timeout     :2000,
+				}).show();
+				setTimeout(function(){location.reload();} , 2500);   
+			}
+			else{
+				new Noty({
+				    text: response,
+				    type: 'error',
+    				layout: 'topRight',
+    				closeWith   : ['click','timeout'],
+                    timeout     :3000,
+				}).show();
+			}
+		});
+	});
+	// for account edit modal
+	$('.Accounts').find('.dropdown-item.edit').on('click',function(){
+		var id=$(this).data('id');
+		$.get(site_url+'accounts/edit_modal/'+id,{},function(response){
+			$('#edit').find('.modal-content').html(response);
+			$('#edit').modal();
+		});
+	});
+	// for account edit ajax
+	$('#edit').on('submit', 'form', function(event) {
+		var action=$(this).attr('action');
+		$.post(action,$(this).serialize(),function(response){
+			if (response=='ok') {
+				new Noty({
+				    text:'Account Updated Successfully.',
+				    type: 'success',
+    				layout: 'topRight',
+    				closeWith   : ['click','timeout'],
+                    timeout     :2000,
+				}).show();
+				setTimeout(function(){location.href=site_url+'accounts'} , 2500);   
+			}
+			else{
+				new Noty({
+				    text: response,
+				    type: 'error',
+    				layout: 'topRight',
+    				closeWith   : ['click','timeout'],
+                    timeout     :3000,
+				}).show();
+			}
+		});
+		return false;
 	});
 
 });
