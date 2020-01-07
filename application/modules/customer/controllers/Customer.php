@@ -23,6 +23,7 @@ class Customer extends Front_Controller
 					'address'=>$this->input->post('customer_address'),
 					'phone'=>$this->input->post('customer_phone'),
 					'status'=>$this->input->post('status'),
+					'balance'=>'0'
 				);
 				if($this->customer_m->insert(config('tbl_customer'),$data)):
 					echo "ok";

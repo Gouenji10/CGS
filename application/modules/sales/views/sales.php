@@ -98,6 +98,7 @@
                             <div class="col-lg-9">
                                 <?php echo form_input(['type'=>'hidden','name'=>'customer_id']);?>
                                 <?php echo form_input(['type'=>'hidden','name'=>'sales_type','value'=>'gas_sales']);?>
+                                <?php echo form_input(['type'=>'hidden','name'=>'date']);?>
                             	<?php echo form_input(['type'=>'submit','class'=>'btn c-btn btn-danger mr-1 mb-2 pull-right','value'=>'Submit']);?>
                             </div>
                         </div>

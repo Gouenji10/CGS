@@ -19,7 +19,8 @@ class Sales extends Front_Controller
 			$this->form_validation->set_rules('customer_phone','Customer Phone','required');
 			$this->form_validation->set_rules('transaction_type','Transaction Type','required');
 
-			if($this->form_validation->run()==true){
+			if($this->form_validation->run()==true)
+			{
 				$customer_id=$this->input->post('customer_id');
 				$customer_name=$this->input->post('customer_name');
 				$customer_address=$this->input->post('customer_phone');
@@ -27,11 +28,12 @@ class Sales extends Front_Controller
 				$incoming=$this->input->post('incoming');
 				$outgoing=$this->input->post('outgoing');
 				$transaction_type=$this->input->post('transaction_type');
+				$date=$this->input->post('date');
 
 				if($transaction_type=='cash'){
 					$cash_amt=$this->input->post('cash_amt');
 					$credit_amt='0';
-					$status='1';
+					$status='';
 				}elseif ($transaction_type=='credit') {
 					$credit_amt=$this->input->post('credit_amt');
 					$cash_amt='0';
@@ -41,24 +43,72 @@ class Sales extends Front_Controller
 					$credit_amt=$this->input->post('credit_amt');
 					$status='2';
 				}
-
-				if($incoming=='0'){
-					$incoming='Not Received';
-				}
 				if(empty($customer_id)){
+					if($transaction_type=='cash'){
+						$balance='0';
+					}elseif ($transaction_type=='credit') {
+						$balance=$credit_amt;						
+					}elseif($transaction_type=='both'){
+						$balance=$credit_amt;
+					}
 					$data=array(
 						'name'=>$customer_name,
 						'address'=>$customer_phone,
 						'phone'=>$customer_address,
-						'status'=>$sataus
+						'status'=>$status,
+						'balance'=>$balance
 					);
-					$balance='0';
-					// insert into customer database
+					$this->sales_m->insert(config('tbl_customer'),$data);
+					$customer_id = $this->db->insert_id();
+
 				}else{
 
+					$customer_data=$this->sales_m->getOne(config('tbl_customer'),array('id'=>$customer_id));
+					if($transaction_type=='cash'){
+						$balance=$customer_data['balance'];
+					}elseif ($transaction_type=='credit') {
+						$balance=$customer_data['balance'];
+						if($balance==''){
+							$balance='0';
+						}
+						$balance=$balance + $credit_amt;						
+					}elseif($transaction_type=='both'){
+						$balance=$customer_data['balance'];
+						if($balance==''){
+							$balance='0';
+						}
+						$balance=$balance + $credit_amt;
+					}
+					$update_data=array(
+						'status'=>$status,
+						'balance'=>$balance
+					);
+					$this->sales_m->update(config('tbl_customer'),$update_data,array('id'=>$customer_id));
 				}
+				$sales_data=array(
+					'sales_date'=>$date,
+					'customer_id'=>$customer_id,
+					'incoming'=>$incoming,
+					'outgoing'=>$outgoing,
+					'transaction_type'=>$transaction_type,
+					'cash'=>$cash_amt,
+					'credit'=>$credit_amt,
+					'status'=>'',
+					'sales_type'=>$this->input->post('sales_type'),
+				);
+				if($this->sales_m->insert(config('tbl_sales_gas'),$sales_data)){
+					echo "ok";
+					exit();
+				}else{
+					echo "Failed To Add Sales.";
+					exit();
+				}
+
+			}else{
+				echo validation_errors();
+				exit();	
 			}
-			exit();
+			
 		}
 		$cylinders=$this->get_cylinder();
 		$this->template
