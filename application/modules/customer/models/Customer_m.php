@@ -10,5 +10,8 @@ class Customer_m extends My_Model
 	{
 		parent::__construct();
 	}
+	public function due_customer(){
+		$this->db->where('status','2');
+	}
 }
  ?>

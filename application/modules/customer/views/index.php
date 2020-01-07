@@ -48,7 +48,7 @@
                                     <td><a href="<?php echo base_url('customer/details/'.$customer->id);?>"><?php echo $customer->name;?></a></td>
                                     <td><?php echo $customer->address;?></td>
                                     <td><?php echo $customer->phone;?></td>
-                                    <td><span style="width:100px;"><span class="badge-text badge-text-small info"><?php echo $customer->status==1?'No Due':'Due';?></span></span></td>
+                                    <td><span style="width:100px;"><?php echo $customer->status==1?'<span class="badge-text badge-text-small info">No Due</span>':'<span class="badge-text badge-text-small danger">Due</span>';?></span></td>
                                     <td class="td-actions">
                                         <a href="#"><i class="la la-edit edit"></i></a>
                                         <a href="#"><i class="la la-close delete"></i></a>

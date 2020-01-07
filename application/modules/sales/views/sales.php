@@ -47,7 +47,7 @@
                         <div class="form-group row mb-5">
                             <label class="col-lg-3 form-control-label">Incoming Cylinder</label>
                             <div class="col-lg-9 select mb-3">
-                                <?php array_unshift($cylinders,"Select Outgoing Cylinders");?>
+                                <?php array_unshift($cylinders,"Select Cylinder");?>
                                 <?php echo form_dropdown('incoming',$cylinders,'',array('class'=>'custom-select form-control'));?>
                             </div>
                         </div>
@@ -97,6 +97,7 @@
                             <label class="col-lg-3 form-control-label"></label>
                             <div class="col-lg-9">
                                 <?php echo form_input(['type'=>'hidden','name'=>'customer_id']);?>
+                                <?php echo form_input(['type'=>'hidden','name'=>'sales_type','value'=>'gas_sales']);?>
                             	<?php echo form_input(['type'=>'submit','class'=>'btn c-btn btn-danger mr-1 mb-2 pull-right','value'=>'Submit']);?>
                             </div>
                         </div>

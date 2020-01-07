@@ -46,10 +46,14 @@ class Customer extends Front_Controller
 		->build('index');
 	}
 	public function due(){
+		add_hook('where','due_customer',$this->customer_m,'due_customer',array());
+		$tbl_data=$this->customer_m->getAll(config('tbl_customer'));
+		remove_hook('where','due_customer');
 		$this->template
 		->title('Customer')
 		->set_layout('dashboard')
 		->set('page','Customer')
+		->set('customers',$tbl_data)
 		->build('due');	
 	}
 
@@ -61,6 +65,16 @@ class Customer extends Front_Controller
 			->set('page','Customer')
 			->set('customer',$tbl_customer)
 			->build('details');		
+	}
+
+	public function due_details($id){
+		$tbl_customer=$this->customer_m->getOne(config('tbl_customer'),array('id'=>$id));
+		$this->template
+			->title('Customer')
+			->set_layout('dashboard')
+			->set('page','Customer')
+			->set('customer',$tbl_customer)
+			->build('due_customer');	
 	}
 }
 

@@ -36,94 +36,21 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php $i=1;?>
+                                <?php foreach($customers as $customer):?>
                                 <tr>
-                                    <td><span class="text-primary">054-01-FR</span></td>
-                                    <td>Lori Baker</td>
-                                    <td>US</td>
-                                    <td>10/21/2017</td>
-                                    <td><span style="width:100px;"><span class="badge-text badge-text-small info">Paid</span></span></td>
+                                    <td><span class="text-primary"><?php echo $i;?></span></td>
+                                    <td><a href="<?php echo base_url('customer/due_details/'.$customer->id);?>"><?php echo $customer->name;?></a></td>
+                                    <td><?php echo $customer->address;?></td>
+                                    <td><?php echo $customer->phone;?></td>
+                                    <td><span style="width:100px;"><?php echo $customer->status==1?'<span class="badge-text badge-text-small info">No Due</span>':'<span class="badge-text badge-text-small danger">Due</span>';?></span></td>
                                     <td class="td-actions">
                                         <a href="#"><i class="la la-edit edit"></i></a>
                                         <a href="#"><i class="la la-close delete"></i></a>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td><span class="text-primary">021-12-US</span></td>
-                                    <td>Lawrence Crawford</td>
-                                    <td>FR</td>
-                                    <td>10/21/2017</td>
-                                    <td><span style="width:100px;"><span class="badge-text badge-text-small info">Paid</span></span></td>
-                                    <td class="td-actions">
-                                        <a href="#"><i class="la la-edit edit"></i></a>
-                                        <a href="#"><i class="la la-close delete"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><span class="text-primary">189-01-RU</span></td>
-                                    <td>Samuel Walker</td>
-                                    <td>AU</td>
-                                    <td>08/21/2017</td>
-                                    <td><span style="width:100px;"><span class="badge-text badge-text-small danger">Failed</span></span></td>
-                                    <td class="td-actions">
-                                        <a href="#"><i class="la la-edit edit"></i></a>
-                                        <a href="#"><i class="la la-close delete"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><span class="text-primary">092-06-FR</span></td>
-                                    <td>Angela Walters</td>
-                                    <td>US</td>
-                                    <td>08/21/2017</td>
-                                    <td><span style="width:100px;"><span class="badge-text badge-text-small success">Delivered</span></span></td>
-                                    <td class="td-actions">
-                                        <a href="#"><i class="la la-edit edit"></i></a>
-                                        <a href="#"><i class="la la-close delete"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><span class="text-primary">021-09-US</span></td>
-                                    <td>Ryan Hanson</td>
-                                    <td>ES</td>
-                                    <td>07/21/2017</td>
-                                    <td><span style="width:100px;"><span class="badge-text badge-text-small info">Paid</span></span></td>
-                                    <td class="td-actions">
-                                        <a href="#"><i class="la la-edit edit"></i></a>
-                                        <a href="#"><i class="la la-close delete"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><span class="text-primary">054-01-FR</span></td>
-                                    <td>Evelyn Black</td>
-                                    <td>FR</td>
-                                    <td>10/21/2017</td>
-                                    <td><span style="width:100px;"><span class="badge-text badge-text-small info">Paid</span></span></td>
-                                    <td class="td-actions">
-                                        <a href="#"><i class="la la-edit edit"></i></a>
-                                        <a href="#"><i class="la la-close delete"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><span class="text-primary">021-12-US</span></td>
-                                    <td>James Morris</td>
-                                    <td>EN</td>
-                                    <td>10/21/2017</td>
-                                    <td><span style="width:100px;"><span class="badge-text badge-text-small info">Paid</span></span></td>
-                                    <td class="td-actions">
-                                        <a href="#"><i class="la la-edit edit"></i></a>
-                                        <a href="#"><i class="la la-close delete"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><span class="text-primary">189-01-RU</span></td>
-                                    <td>Valentin H.</td>
-                                    <td>AU</td>
-                                    <td>08/21/2017</td>
-                                    <td><span style="width:100px;"><span class="badge-text badge-text-small danger">Failed</span></span></td>
-                                    <td class="td-actions">
-                                        <a href="#"><i class="la la-edit edit"></i></a>
-                                        <a href="#"><i class="la la-close delete"></i></a>
-                                    </td>
-                                </tr>
+                                <?php $i++;?>
+                            <?php endforeach;?>
                             </tbody>
                         </table>
                     </div>
