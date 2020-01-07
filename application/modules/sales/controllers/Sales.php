@@ -23,8 +23,8 @@ class Sales extends Front_Controller
 			{
 				$customer_id=$this->input->post('customer_id');
 				$customer_name=$this->input->post('customer_name');
-				$customer_address=$this->input->post('customer_phone');
-				$cusomer_phone=$this->input->post('customer_phone');
+				$customer_address=$this->input->post('customer_address');
+				$customer_phone=$this->input->post('customer_phone');
 				$incoming=$this->input->post('incoming');
 				$outgoing=$this->input->post('outgoing');
 				$transaction_type=$this->input->post('transaction_type');
@@ -53,8 +53,8 @@ class Sales extends Front_Controller
 					}
 					$data=array(
 						'name'=>$customer_name,
-						'address'=>$customer_phone,
-						'phone'=>$customer_address,
+						'address'=>$customer_address,
+						'phone'=>$customer_phone,
 						'status'=>$status,
 						'balance'=>$balance
 					);
@@ -93,6 +93,7 @@ class Sales extends Front_Controller
 					'transaction_type'=>$transaction_type,
 					'cash'=>$cash_amt,
 					'credit'=>$credit_amt,
+					'balance'=>$balance,
 					'status'=>'',
 					'sales_type'=>$this->input->post('sales_type'),
 				);

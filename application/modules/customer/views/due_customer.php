@@ -36,14 +36,55 @@
                                     <th>Transaction Details</th>
                                     <th>Incoming Cylinder</th>
                                     <th>Outgoing Cylinder</th>
-                                    <th>Bill Amount</th>
-                                    <th>Received Amount</th>
-                                    <th>Balance Amount</th>
-                                    <th>Status</th>
+                                    <th>Cash Amt</th>
+                                    <th>Credit Amt</th>
+                                    <th>Balance Amt</th>
+                                    <th>Cylinder Status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                               
+                                <?php foreach($due_data as $due):?>
+                                    <tr>
+                                        <td><?php echo $due->sales_date;?></td>
+                                        <td><?php echo $due->sales_type=='gas_sales'?'Gas Refill':'' ?></td>
+                                        <td>
+                                            <?php 
+                                                if($due->incoming=='0'){
+                                                    echo "Not Received";
+                                                }
+                                                foreach ($cylinders as $key => $value) {
+                                                    if($key==$due->incoming){
+                                                        echo $value;
+                                                    }
+                                                }
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <?php 
+                                                if($due->outgoing=='0'){
+                                                    echo "Not Sent";
+                                                }
+                                                foreach ($cylinders as $key => $value) {
+                                                    if($key==$due->outgoing){
+                                                        echo $value;
+                                                    }
+                                                }
+                                            ?>
+                                        </td>
+                                        <td><?php echo $due->cash=='0'?'--':'Rs: '.$due->cash;?></td>
+                                        <td><?php echo $due->credit=='0'?'--':'Rs: '.$due->credit;?></td>
+                                        <td><?php echo $due->balance=='0'?'--':'Rs: '.$due->balance;?></td>
+                                        <td>
+                                            <?php 
+                                            if($due->incoming=='0'){
+                                                echo '<span class="badge-text badge-text-small danger">Pending</span>';
+                                            }else{
+                                                echo"--";
+                                            }?>
+                                        </td>    
+                                    </tr>
+                                    
+                                <?php endforeach;?>
                             </tbody>
                         </table>
                     </div>

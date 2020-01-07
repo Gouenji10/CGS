@@ -38,7 +38,7 @@ class Customer extends Front_Controller
 			endif;
 
 		endif;
-		$tbl_data=$this->customer_m->getAll(config('tbl_customer'));
+		$tbl_data=$this->customer_m->getAll(config('tbl_customer'));		
 		$this->template
 		->title('Customer')
 		->set_layout('dashboard')
@@ -70,11 +70,17 @@ class Customer extends Front_Controller
 
 	public function due_details($id){
 		$tbl_customer=$this->customer_m->getOne(config('tbl_customer'),array('id'=>$id));
+		add_hook('where','due_customer_data',$this->customer_m,'due_customer_data',array($id));
+		$due_data=$this->customer_m->getAll(config('tbl_sales_gas'));
+		remove_hook('where','due_customer_data');
+		$cylinders=Modules::load('sales')->get_cylinder();
 		$this->template
 			->title('Customer')
 			->set_layout('dashboard')
 			->set('page','Customer')
 			->set('customer',$tbl_customer)
+			->set('due_data',$due_data)
+			->set('cylinders',$cylinders)
 			->build('due_customer');	
 	}
 }
