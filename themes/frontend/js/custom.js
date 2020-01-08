@@ -260,7 +260,9 @@ $(document).ready(function(){
 	});
 
 	$('#product_result').on('click','li',function(){
+		var product_id=$(this).data('product_id');
 		$('#product_sales').find('input[name="product_name"]').val($(this).text());
+		$('#product_sales').find('input[name="product_id"]').val(product_id);
 		$('#product_result').fadeOut();
 	});
 
@@ -332,6 +334,33 @@ $(document).ready(function(){
 			if (response=='ok') {
 				new Noty({
 				    text:'Sales Transaction Added Successfully.',
+				    type: 'success',
+    				layout: 'topRight',
+    				closeWith   : ['click','timeout'],
+                    timeout     :2000,
+				}).show();
+				setTimeout(function(){location.href=site_url+'sales'} , 2500);   
+			}
+			else{
+				new Noty({
+				    text: response,
+				    type: 'error',
+    				layout: 'topRight',
+    				closeWith   : ['click','timeout'],
+                    timeout     :3000,
+				}).show();
+			}
+		});
+		return false;
+	});
+
+	// for Adding Product Sales ajaxs  
+	$('form#product_sales').on('submit',function(){
+		var action=$(this).attr('action');
+		$.post(action,$(this).serialize(),function(response){
+			if (response=='ok') {
+				new Noty({
+				    text:'Product Sale Transaction Added Successfully.',
 				    type: 'success',
     				layout: 'topRight',
     				closeWith   : ['click','timeout'],

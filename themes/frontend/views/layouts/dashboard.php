@@ -23,7 +23,7 @@
                 <div class="navbar-holder d-flex align-items-center align-middle justify-content-between">
                     <!-- Begin Logo -->
                     <div class="navbar-header">
-                        <a href="db-default.html" class="navbar-brand">
+                        <a href="<?php echo base_url('welcome');?>" class="navbar-brand">
                             <div class="brand-image brand-big">
                                 <img src="<?php echo img('logo-big.png',true);?>" alt="logo" class="logo-big">
                             </div>

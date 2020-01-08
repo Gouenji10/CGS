@@ -38,7 +38,7 @@
                                     <th>Outgoing Cylinder</th>
                                     <th>Cash Amount</th>
                                     <th>Credit Amount</th>
-                                    <th>Balance Amount</th>
+                                    <th>Credit Balance</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
@@ -92,11 +92,14 @@
                                         <td><?php echo $due->balance=='0'?'--':'Rs: '.$due->balance;?></td>
                                         <td>
                                             <?php 
-                                            if($due->incoming=='0'){
-                                                echo '<span class="badge-text badge-text-small danger">Pending</span>';
-                                            }else{
-                                                echo'<span class="badge-text badge-text-small info">Received</span>';
-                                            }?>
+                                                if($due->sales_type=='gas_sales'){
+                                                     if($due->incoming=='0'){
+                                                        echo '<span class="badge-text badge-text-small danger">Pending</span>';
+                                                    }else{
+                                                        echo'<span class="badge-text badge-text-small info">Received</span>';
+                                                    }   
+                                                }
+                                            ?>
                                         </td>    
                                     </tr>
                                     
