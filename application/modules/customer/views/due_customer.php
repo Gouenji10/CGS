@@ -36,22 +36,36 @@
                                     <th>Transaction Details</th>
                                     <th>Incoming Cylinder</th>
                                     <th>Outgoing Cylinder</th>
-                                    <th>Cash Amt</th>
-                                    <th>Credit Amt</th>
-                                    <th>Balance Amt</th>
-                                    <th>Cylinder Status</th>
+                                    <th>Cash Amount</th>
+                                    <th>Credit Amount</th>
+                                    <th>Balance Amount</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach($due_data as $due):?>
                                     <tr>
                                         <td><?php echo $due->sales_date;?></td>
-                                        <td><?php echo $due->sales_type=='gas_sales'?'Gas Refill':'' ?></td>
                                         <td>
                                             <?php 
-                                                if($due->incoming=='0'){
-                                                    echo "Not Received";
+                                                if($due->sales_type=='gas_sales'){
+                                                    echo 'Gas Refill';
+                                                }elseif($due->sales_type=='cash_received'){
+                                                    echo 'Cash Received';
+                                                }else{
+                                                    echo 'Product Details here';
                                                 }
+                                                ?>
+                                                
+                                        </td>
+                                        <td>
+                                            <?php
+                                                if($due->incoming==''){
+                                                    echo'--';
+                                                }elseif($due->incoming=='0'){
+                                                    echo "Not Received";
+                                                } 
+                                                
                                                 foreach ($cylinders as $key => $value) {
                                                     if($key==$due->incoming){
                                                         echo $value;
@@ -60,8 +74,10 @@
                                             ?>
                                         </td>
                                         <td>
-                                            <?php 
-                                                if($due->outgoing=='0'){
+                                            <?php
+                                                if($due->outgoing==''){
+                                                    echo "--";
+                                                }elseif($due->outgoing=='0'){
                                                     echo "Not Sent";
                                                 }
                                                 foreach ($cylinders as $key => $value) {
@@ -79,7 +95,7 @@
                                             if($due->incoming=='0'){
                                                 echo '<span class="badge-text badge-text-small danger">Pending</span>';
                                             }else{
-                                                echo"--";
+                                                echo'<span class="badge-text badge-text-small info">Received</span>';
                                             }?>
                                         </td>    
                                     </tr>
@@ -102,13 +118,13 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Add Credit Transaction</h4>
+                <h4 class="modal-title">Add Received Amount</h4>
                 <button type="button" class="close" data-dismiss="modal">
                     <span aria-hidden="true">×</span>
                     <span class="sr-only">close</span>
                 </button>
             </div>
-            <?php echo form_open('accounts/credit_transaction',array('id'=>'credit_transaction'));?>
+            <?php echo form_open('customer/due_details/'.$customer['id'],array('id'=>'amt_received'));?>
                 <div class="modal-body mx-5">
                     <div class="form-group row d-flex align-items-center mb-5">
                         <label class="col-lg-3 form-control-label">Transaction Date</label>
@@ -127,14 +143,13 @@
                         </div>
                     </div>
                     <div class="form-group row d-flex align-items-center mb-5">
-                        <label class="col-lg-3 form-control-label">Credit Amount</label>
+                        <label class="col-lg-3 form-control-label">Amount Received</label>
                         <div class="col-lg-9">
                             <?php echo form_input(['type'=>'text','placeholder'=>'Amount','class'=>'form-control','name'=>'amount']);?>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="hidden" value="<?php echo $customer['id'];?>"name="store_id">
                     <input type="submit" class="btn btn-primary" value="Save">
                 </div>
             <?php echo form_close();?>

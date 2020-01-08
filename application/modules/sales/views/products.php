@@ -23,7 +23,7 @@
                     <h4>Add Product Sale</h4>
                 </div>
                 <div class="widget-body">
-                	<?php echo form_open('sales/products','class="form-horizontal"id="product_sales"');?>
+                	<?php echo form_open('sales/products','class="form-horizontal" id="product_sales"');?>
                         <div class="form-group row d-flex align-items-center mb-5">
                             <label class="col-lg-3 form-control-label">Customer Name</label>
                             <div class="col-lg-9">
@@ -47,7 +47,7 @@
                         <div class="form-group row d-flex align-items-center mb-5">
                             <label class="col-lg-3 form-control-label">Product Name</label>
                             <div class="col-lg-9">
-                                <?php echo form_input(['type'=>'text','placeholder'=>'Product Name','class'=>'form-control','name'=>'product_name']);?>
+                                <?php echo form_input(['type'=>'text','placeholder'=>'Product Name','class'=>'form-control','name'=>'product_name','autocomplete'=>'off']);?>
                                 <div id="product_result"></div>
                             </div>
                         </div>

@@ -70,6 +70,37 @@ class Customer extends Front_Controller
 
 	public function due_details($id){
 		$tbl_customer=$this->customer_m->getOne(config('tbl_customer'),array('id'=>$id));
+		if($this->input->post()){
+			$this->form_validation->set_rules('transaction_details','Transaction Details','required');
+			$this->form_validation->set_rules('amount','Transaction Amount','required');
+			if($this->form_validation->run()==true){
+				$balance=$tbl_customer['balance']-$this->input->post('amount');
+				$tbl_data=array(
+					'sales_date'=>$this->input->post('date'),
+					'customer_id'=>$id,
+					'incoming'=>'--',
+					'outgoing'=>'--',
+					'transaction_type'=>'cash',
+					'cash'=>$this->input->post('amount'),
+					'credit'=>'0',
+					'balance'=>$balance,
+					'sales_type'=>'cash_received'
+				);
+				if($this->customer_m->insert(config('tbl_sales_gas'),$tbl_data)){
+					$tbl_balance=array(
+						'balance'=>$balance
+					);
+					$this->customer_m->update(config('tbl_customer'),$tbl_balance,array('id'=>$id));
+					echo "ok";
+				}else{
+					echo "Failed To Add Transaction.";
+				}
+			}else{
+				echo validation_errors();
+				exit();
+			}
+			exit;
+		}
 		add_hook('where','due_customer_data',$this->customer_m,'due_customer_data',array($id));
 		$due_data=$this->customer_m->getAll(config('tbl_sales_gas'));
 		remove_hook('where','due_customer_data');
