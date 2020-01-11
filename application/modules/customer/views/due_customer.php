@@ -32,10 +32,10 @@
                         <table class="table table-hover mb-0">
                             <thead>
                                 <tr>
-                                    <th>Transaction Date</th>
-                                    <th>Transaction Details</th>
-                                    <th>Incoming Cylinder</th>
-                                    <th>Outgoing Cylinder</th>
+                                    <th>Date</th>
+                                    <th>Details</th>
+                                    <th>In Cylinder</th>
+                                    <th>Out Cylinder</th>
                                     <th>Cash Amount</th>
                                     <th>Credit Amount</th>
                                     <th>Credit Balance</th>

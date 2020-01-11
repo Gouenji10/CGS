@@ -408,4 +408,74 @@ $(document).ready(function(){
 		return false;
 	});
 
+	// Cylinder Edit Modal
+	$('.Cylinder').find('.widget-body').find('.edit').on('click',function(){
+		var id=$(this).data('id');
+		$.get(site_url+'/inventory/c_edit_modal/'+id,{},function(response){
+			$('#edit_cylinder_modal').find('.modal-content').html(response);
+			$('#edit_cylinder_modal').modal();
+		});
+	});
+	// Cylinder Edit Form Submit
+	$('#edit_cylinder_modal').on('submit','form',function(){
+		var action=$(this).attr('action');
+		$.post(action,$(this).serialize(),function(response){
+			if (response=='ok') {
+				new Noty({
+				    text:'Cylinder Updated Successfully.',
+				    type: 'success',
+    				layout: 'topRight',
+    				closeWith   : ['click','timeout'],
+                    timeout     :2000,
+				}).show();
+				setTimeout(function(){location.reload();} , 2500);   
+			}
+			else{
+				new Noty({
+				    text: response,
+				    type: 'error',
+    				layout: 'topRight',
+    				closeWith   : ['click','timeout'],
+                    timeout     :3000,
+				}).show();
+			}
+		});
+		return false;
+	});
+
+	// Product Edit Modal
+	$('.Products').find('.widget-body').find('.edit').on('click',function(){
+		var id=$(this).data('id');
+		$.get(site_url+'/inventory/p_edit_modal/'+id,{},function(response){
+			$('#edit_product_modal').find('.modal-content').html(response);
+			$('#edit_product_modal').modal();
+		});
+	});
+	// Product Edit Form Submit
+	$('#edit_product_modal').on('submit','form',function(){
+		var action=$(this).attr('action');
+		$.post(action,$(this).serialize(),function(response){
+			if (response=='ok') {
+				new Noty({
+				    text:'Product Updated Successfully.',
+				    type: 'success',
+    				layout: 'topRight',
+    				closeWith   : ['click','timeout'],
+                    timeout     :2000,
+				}).show();
+				setTimeout(function(){location.reload();} , 2500);   
+			}
+			else{
+				new Noty({
+				    text: response,
+				    type: 'error',
+    				layout: 'topRight',
+    				closeWith   : ['click','timeout'],
+                    timeout     :3000,
+				}).show();
+			}
+		});
+		return false;
+	});
+
 });

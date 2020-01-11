@@ -59,7 +59,7 @@
                                         <td>Rs: <?php echo $product->selling;?></td>
                                         <td><?php echo $product->stock;?></td>
                                         <td class="td-actions">
-                                            <a href="#"><i class="la la-edit edit"></i></a>
+                                            <a href="#" class="edit" data-id="<?php echo $product->id;?>"><i class="la la-edit"></i></a>
                                             <a href="#"><i class="la la-close delete"></i></a>
                                         </td>
                                     </tr>
@@ -131,6 +131,15 @@
                 </div>
             </form>
             
+        </div>
+    </div>
+</div>
+<!-- End Large Modal -->
+
+<!-- Begin Large Modal -->
+<div id="edit_product_modal" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
         </div>
     </div>
 </div>

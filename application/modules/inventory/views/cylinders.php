@@ -44,7 +44,7 @@
                                     <td><span class="text-primary"><?php echo $i;?></span></td>
                                     <td><?php echo $cylinder->name;?></td>
                                     <td class="td-actions">
-                                        <a href="#"><i class="la la-edit edit"></i></a>
+                                        <a href="#" class="edit" data-id="<?php echo $cylinder->id;?>"><i class="la la-edit" ></i></a>
                                         <a href="#"><i class="la la-close delete"></i></a>
                                     </td>
                                 </tr>
@@ -85,6 +85,15 @@
                     <input type="submit" class="btn btn-primary" value="Save">
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+<!-- End Large Modal -->
+
+<!-- Begin Large Modal -->
+<div id="edit_cylinder_modal" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
         </div>
     </div>
 </div>
