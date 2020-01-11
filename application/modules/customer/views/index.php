@@ -63,7 +63,7 @@
                                         </span>
                                     </td>
                                     <td class="td-actions">
-                                        <a href="#"><i class="la la-edit edit"></i></a>
+                                        <a href="#" data-id="<?php echo $customer->id;?>" class="edit"><i class="la la-edit"></i></a>
                                         <a href="#"><i class="la la-close delete"></i></a>
                                     </td>
                                 </tr>
@@ -123,6 +123,15 @@
                     <input type="submit" class="btn btn-primary" value="Save">
                 </div>
             <?php echo form_close(); ?>
+        </div>
+    </div>
+</div>
+<!-- End Large Modal -->
+
+<!-- Begin Large Modal -->
+<div id="edit_customer_modal" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
         </div>
     </div>
 </div>

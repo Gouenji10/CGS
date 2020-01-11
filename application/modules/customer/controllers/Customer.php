@@ -46,6 +46,42 @@ class Customer extends Front_Controller
 		->set('customers',$tbl_data)
 		->build('index');
 	}
+
+	public function customer_modal($id){
+		if($this->input->is_ajax_request()):
+			$tbl_data=$this->customer_m->get(config('tbl_customer'),array('id'=>$id));
+			echo $this->load->view('edit',$tbl_data,true);
+			exit;
+		endif;
+	}
+	public function customer_edit($id){
+		if($this->input->post()):
+			$this->form_validation->set_rules('customer_name','Customer Name','required');
+			$this->form_validation->set_rules('customer_address','Customer Address','required');
+			$this->form_validation->set_rules('customer_phone','Customer Phone','required');
+
+			if($this->form_validation->run()==true):
+				$data=array(
+					'name'=>$this->input->post('customer_name'),
+					'address'=>$this->input->post('customer_address'),
+					'phone'=>$this->input->post('customer_phone'),
+					'status'=>$this->input->post('status'),
+				);
+				if($this->customer_m->update(config('tbl_customer'),$data,array('id'=>$id))):
+					echo "ok";
+					exit();
+				else:
+					echo"Failed To Update Customer Successfully.";
+					exit();
+				endif;
+			else:
+				echo validation_errors();
+				exit();
+			endif;
+
+		endif;
+	}
+
 	public function due(){
 		add_hook('where','due_customer',$this->customer_m,'due_customer',array());
 		$tbl_data=$this->customer_m->getAll(config('tbl_customer'));

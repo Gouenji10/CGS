@@ -478,4 +478,39 @@ $(document).ready(function(){
 		return false;
 	});
 
+	// For editing Customer Details
+	$('.Customer').find('.widget-body').find('.edit').on('click',function(){
+		var id=$(this).data('id');
+		$.get(site_url+'/customer/customer_modal/'+id,{},function(response){
+			$('#edit_customer_modal').find('.modal-content').html(response);
+			$('#edit_customer_modal').modal();
+		});
+	});
+	// Customer Edit Form Submit
+	$('#edit_customer_modal').on('submit','form',function(){
+		var action=$(this).attr('action');
+		$.post(action,$(this).serialize(),function(response){
+			if (response=='ok') {
+				new Noty({
+				    text:'Customer Updated Successfully.',
+				    type: 'success',
+    				layout: 'topRight',
+    				closeWith   : ['click','timeout'],
+                    timeout     :2000,
+				}).show();
+				setTimeout(function(){location.reload();} , 2500);   
+			}
+			else{
+				new Noty({
+				    text: response,
+				    type: 'error',
+    				layout: 'topRight',
+    				closeWith   : ['click','timeout'],
+                    timeout     :3000,
+				}).show();
+			}
+		});
+		return false;
+	});
+
 });
