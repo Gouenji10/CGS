@@ -109,22 +109,29 @@ class Customer extends Front_Controller
 		if($this->input->post()){
 			$this->form_validation->set_rules('transaction_details','Transaction Details','required');
 			$this->form_validation->set_rules('amount','Transaction Amount','required');
+
 			if($this->form_validation->run()==true){
+				$date=$this->input->post('date');
+				$date=Modules::load('sales')->convert_date($date);
 				$balance=$tbl_customer['balance']-$this->input->post('amount');
 				$tbl_data=array(
-					'sales_date'=>$this->input->post('date'),
+					'date'=>$date,
 					'customer_id'=>$id,
-					'incoming'=>'--',
-					'outgoing'=>'--',
-					'transaction_type'=>'cash',
-					'cash'=>$this->input->post('amount'),
-					'credit'=>'0',
+					'sales_type'=>'cash_received',
+					'cash_amount'=>$this->input->post('amount'),
+					'credit_amount'=>'',
 					'balance'=>$balance,
-					'sales_type'=>'cash_received'
+					'comments'=>$this->input->post('transaction_details'),
 				);
-				if($this->customer_m->insert(config('tbl_sales_gas'),$tbl_data)){
+				if($balance=='0'){
+					$status='1';
+				}else{
+					$status='2';
+				}
+				if($this->customer_m->insert(config('tbl_customer_transactions'),$tbl_data)){
 					$tbl_balance=array(
-						'balance'=>$balance
+						'balance'=>$balance,
+						'status'=>$status
 					);
 					$this->customer_m->update(config('tbl_customer'),$tbl_balance,array('id'=>$id));
 					echo "ok";
@@ -138,8 +145,9 @@ class Customer extends Front_Controller
 			exit;
 		}
 		add_hook('where','due_customer_data',$this->customer_m,'due_customer_data',array($id));
-		$due_data=$this->customer_m->getAll(config('tbl_sales_gas'));
+		$due_data=$this->customer_m->getAll(config('tbl_customer_transactions'));
 		remove_hook('where','due_customer_data');
+		
 		$cylinders=Modules::load('sales')->get_cylinder();
 		$this->template
 			->title('Customer')
@@ -150,6 +158,8 @@ class Customer extends Front_Controller
 			->set('cylinders',$cylinders)
 			->build('due_customer');	
 	}
+
+	
 }
 
 

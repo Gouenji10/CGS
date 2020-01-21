@@ -29,27 +29,21 @@ class Sales extends Front_Controller
 				$outgoing=$this->input->post('outgoing');
 				$transaction_type=$this->input->post('transaction_type');
 				$date=$this->input->post('date');
+				$date=$this->convert_date($date);
+				$cash_amt=$this->input->post('cash_amt');
+				$credit_amt=$this->input->post('credit_amt');
 
-				if($transaction_type=='cash'){
-					$cash_amt=$this->input->post('cash_amt');
-					$credit_amt='0';
-					$status='';
-				}elseif ($transaction_type=='credit') {
-					$credit_amt=$this->input->post('credit_amt');
-					$cash_amt='0';
-					$status='2';
-				}elseif($transaction_type=='both'){
-					$cash_amt=$this->input->post('cash_amt');
-					$credit_amt=$this->input->post('credit_amt');
-					$status='2';
-				}
 				if(empty($customer_id)){
+
 					if($transaction_type=='cash'){
 						$balance='0';
+						$status='1';
 					}elseif ($transaction_type=='credit') {
-						$balance=$credit_amt;						
+						$balance=$credit_amt;
+						$status='2';						
 					}elseif($transaction_type=='both'){
 						$balance=$credit_amt;
+						$status='2';
 					}
 					$data=array(
 						'name'=>$customer_name,
@@ -60,24 +54,17 @@ class Sales extends Front_Controller
 					);
 					$this->sales_m->insert(config('tbl_customer'),$data);
 					$customer_id = $this->db->insert_id();
-
 				}else{
-
 					$customer_data=$this->sales_m->getOne(config('tbl_customer'),array('id'=>$customer_id));
-					if($transaction_type=='cash'){
-						$balance=$customer_data['balance'];
-					}elseif ($transaction_type=='credit') {
-						$balance=$customer_data['balance'];
-						if($balance==''){
-							$balance='0';
-						}
-						$balance=$balance + $credit_amt;						
-					}elseif($transaction_type=='both'){
-						$balance=$customer_data['balance'];
-						if($balance==''){
-							$balance='0';
-						}
+					$balance= $customer_data['balance'];
+					$status=$customer_data['status'];
+					
+					if ($transaction_type=='credit') {
 						$balance=$balance + $credit_amt;
+						$status='2';						
+					}elseif($transaction_type=='both'){
+						$balance=$balance + $credit_amt;
+						$status='2';
 					}
 					$update_data=array(
 						'status'=>$status,
@@ -86,18 +73,18 @@ class Sales extends Front_Controller
 					$this->sales_m->update(config('tbl_customer'),$update_data,array('id'=>$customer_id));
 				}
 				$sales_data=array(
-					'sales_date'=>$date,
+					'date'=>$date,
 					'customer_id'=>$customer_id,
-					'incoming'=>$incoming,
-					'outgoing'=>$outgoing,
-					'transaction_type'=>$transaction_type,
-					'cash'=>$cash_amt,
-					'credit'=>$credit_amt,
-					'balance'=>$balance,
-					'status'=>'',
 					'sales_type'=>$this->input->post('sales_type'),
+					'transaction_type'=>$transaction_type,
+					'cash_amount'=>$cash_amt,
+					'credit_amount'=>$credit_amt,
+					'balance'=>$balance,
+					'incoming_cylinder'=>$incoming,
+					'outgoing_cylinder'=>$outgoing,
+					
 				);
-				if($this->sales_m->insert(config('tbl_sales_gas'),$sales_data)){
+				if($this->sales_m->insert(config('tbl_customer_transactions'),$sales_data)){
 					echo "ok";
 					exit();
 				}else{
@@ -129,57 +116,27 @@ class Sales extends Front_Controller
 			if($this->form_validation->run()==true)
 			{
 				$customer_id=$this->input->post('customer_id');
-
 				$customer_name=$this->input->post('customer_name');
-				
 				$customer_address=$this->input->post('customer_address');
-				
 				$customer_phone=$this->input->post('customer_phone');
-				
 				$transaction_type=$this->input->post('transaction_type');
-				
 				$date=$this->input->post('date');
-
-				if($transaction_type=='cash'){
-
-					$cash_amt=$this->input->post('cash_amt');
-					
-					$credit_amt='0';
-					
-					$status='';
-				
-				}elseif ($transaction_type=='credit') {
-				
-					$credit_amt=$this->input->post('credit_amt');
-				
-					$cash_amt='0';
-				
-					$status='2';
-				
-				}elseif($transaction_type=='both'){
-				
-					$cash_amt=$this->input->post('cash_amt');
-				
-					$credit_amt=$this->input->post('credit_amt');
-				
-					$status='2';
-				}
+				$date=$this->convert_date($date);
+				$cash_amt=$this->input->post('cash_amt');
+				$credit_amt=$this->input->post('credit_amt');
 				
 				if(empty($customer_id)){
-				
+					
 					if($transaction_type=='cash'){
-				
 						$balance='0';
-				
+						$status='1';						
 					}elseif ($transaction_type=='credit') {
-				
-						$balance=$credit_amt;						
-				
-					}elseif($transaction_type=='both'){
-				
 						$balance=$credit_amt;
+						$status='2';						
+					}elseif($transaction_type=='both'){
+						$balance=$credit_amt;
+						$status='2';
 					}
-				
 					$data=array(
 						'name'=>$customer_name,
 						'address'=>$customer_address,
@@ -188,37 +145,16 @@ class Sales extends Front_Controller
 						'balance'=>$balance
 					);
 					$this->sales_m->insert(config('tbl_customer'),$data);
-				
 					$customer_id = $this->db->insert_id();
-
 				}else{
-
 					$customer_data=$this->sales_m->getOne(config('tbl_customer'),array('id'=>$customer_id));
-				
-					if($transaction_type=='cash'){
-				
-						$balance=$customer_data['balance'];
-				
-					}elseif ($transaction_type=='credit') {
-				
-						$balance=$customer_data['balance'];
-				
-						if($balance==''){
-				
-							$balance='0';
-						}
-				
+					$balance=$customer_data['balance'];
+					$status=$customer_data['status'];
+
+					if ($transaction_type=='credit') {
 						$balance=$balance + $credit_amt;						
 				
 					}elseif($transaction_type=='both'){
-				
-						$balance=$customer_data['balance'];
-				
-						if($balance==''){
-				
-							$balance='0';
-						}
-				
 						$balance=$balance + $credit_amt;
 					}
 					$update_data=array(
@@ -228,19 +164,17 @@ class Sales extends Front_Controller
 					$this->sales_m->update(config('tbl_customer'),$update_data,array('id'=>$customer_id));
 				}
 				$sales_data=array(
-					'sales_date'=>$date,
+					'date'=>$date,
 					'customer_id'=>$customer_id,
-					'incoming'=>'--',
-					'outgoing'=>'--',
-					'transaction_type'=>$transaction_type,
-					'cash'=>$cash_amt,
-					'credit'=>$credit_amt,
-					'balance'=>$balance,
-					'status'=>'',
 					'sales_type'=>$this->input->post('sales_type'),
+					'transaction_type'=>$transaction_type,
+					'cash_amount'=>$cash_amt,
+					'credit_amount'=>$credit_amt,
+					'balance'=>$balance,
 					'product_id'=>$this->input->post('product_id'),
+					'product_name'=>$this->input->post('product_name'),
 				);
-				if($this->sales_m->insert(config('tbl_sales_gas'),$sales_data)){
+				if($this->sales_m->insert(config('tbl_customer_transactions'),$sales_data)){
 					echo "ok";
 					exit();
 				}else{
@@ -297,6 +231,7 @@ class Sales extends Front_Controller
 		$result.='</ul>';
 		echo $result;
 	}
+
 	public function get_cylinder(){
 		$cylinders_data = $this->sales_m->select('id,name')->getAll(config('tbl_cylinder'),null,0,array());
     	$cylinder=array();
@@ -304,5 +239,11 @@ class Sales extends Front_Controller
 			$cylinder[$cylinders->id] = $cylinders->name;
 		}
     	return $cylinder;
+	}
+
+	public function convert_date($date){
+        $date=explode('/',$date);
+        $newdate=$this->nepali->get_nepali_date($date['2'],$date['0'],$date['1']);
+    	return $newdate['y'].'/'.$newdate['m'].'/'.$newdate['d'];
 	}
 }

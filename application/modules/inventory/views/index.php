@@ -41,7 +41,7 @@
                                 <?php foreach($categories as $category):?>
                                     <tr>
                                         <td><span class="text-primary"><?php echo $category->id;?></span></td>
-                                        <td><?php echo $category->name;?></td>
+                                        <td><a href="<?php echo base_url('inventory/details/'.$category->id);?>"><?php echo $category->name;?></a></td>
                                         <td class="td-actions">
                                             <a href="#"><i class="la la-edit edit"></i></a>
                                             <a href="#"><i class="la la-close delete"></i></a>

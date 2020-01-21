@@ -46,11 +46,7 @@
                                 <?php foreach($transactions as $transaction):?>
                                     <tr>
                                         <td><span class="text-primary"><?php echo $i;?></span></td>
-                                        <?php 
-                                            $date=explode('/',$transaction->date);
-                                            $newdate=$this->nepali->get_nepali_date($date['2'],$date['0'],$date['1']);
-                                        ?>
-                                        <td><?php echo $newdate['y'].'/'.$newdate['m'].'/'.$newdate['d'];?></td>
+                                        <td><?php echo $transaction->date;?></td>
                                         <td><?php echo $transaction->details;?></td>
                                         <td><?php echo $transaction->debit==0?'--':'Rs: '.$transaction->debit;?></td>
                                         <td><?php echo $transaction->credit==0?'--':'Rs: '.$transaction->credit;?></td>

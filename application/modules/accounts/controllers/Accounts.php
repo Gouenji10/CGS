@@ -1,6 +1,6 @@
 <?php 
 	/**
-	 * 
+	 * For handling the accounts for the party of cgs
 	 */
 	class Accounts extends Front_Controller
 	{
@@ -10,6 +10,7 @@
 			parent::__construct();
 			$this->load->model('accounts_m');
 		}
+
 		public function index(){
 			if($this->input->post()):
 				$this->form_validation->set_rules('party_name','Party Name','required');
@@ -42,6 +43,7 @@
 			->set('accounts',$tbl_party)
 			->build('index');
 		}
+
 		public function details($id){
 			$tbl_data=$this->accounts_m->getOne(config('tbl_party'),array('id'=>$id));
 			$tbl_transaction=$this->accounts_m->get_by(config('tbl_transaction'),array('store_id'=>$id));
@@ -53,7 +55,6 @@
 			->set('transactions',$tbl_transaction)
 			->build('details');
 		}
-
 		public function debit_transaction(){
 			if($this->input->post()){
 				$this->form_validation->set_rules('date','Transaction Date','required');
@@ -62,8 +63,9 @@
 				if($this->form_validation->run()==true):
 					$store_id=$this->input->post('store_id');
 					$debit=$this->input->post('amount');
+					$date=$this->input->post('date');
+					$date=$this->convert_date($date);
 					$credit=0;
-
 					if($tbl_data=$this->accounts_m->getLast(config('tbl_transaction'),array('store_id'=>$store_id))):
 						$balance=$tbl_data->balance;
 					else:
@@ -74,7 +76,7 @@
 
 					$data=array(
 						'store_id'=>$store_id,
-						'date'=>$this->input->post('date'),
+						'date'=>$date,
 						'details'=>$this->input->post('transaction_details'),
 						'debit'=>$debit,
 						'credit'=>$credit,
@@ -92,7 +94,6 @@
 			}
 		}
 
-
 		public function credit_transaction(){
 			if($this->input->post()){
 				$this->form_validation->set_rules('date','Transaction Date','required');
@@ -101,6 +102,8 @@
 				if($this->form_validation->run()==true):
 					$store_id=$this->input->post('store_id');
 					$credit=$this->input->post('amount');
+					$date=$this->input->post('date');
+					$date=$this->convert_date($date);
 					$debit=0;
 
 					if($tbl_data=$this->accounts_m->getLast(config('tbl_transaction'),array('store_id'=>$store_id))):
@@ -113,7 +116,7 @@
 
 					$data=array(
 						'store_id'=>$store_id,
-						'date'=>$this->input->post('date'),
+						'date'=>$date,
 						'details'=>$this->input->post('transaction_details'),
 						'debit'=>$debit,
 						'credit'=>$credit,
@@ -130,6 +133,7 @@
 				endif;
 			}
 		}
+
 
 		public function edit($id){
 			if($this->input->post()):
@@ -177,6 +181,14 @@
 				exit;
 			endif;
 		}
+
+		public function convert_date($date){
+	        $date=explode('/',$date);
+	        $newdate=$this->nepali->get_nepali_date($date['2'],$date['0'],$date['1']);
+	    	return $newdate['y'].'/'.$newdate['m'].'/'.$newdate['d'];
+		}
 	}
+
+	
 	
  ?>

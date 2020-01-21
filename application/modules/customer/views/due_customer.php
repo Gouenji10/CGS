@@ -33,77 +33,54 @@
                             <thead>
                                 <tr>
                                     <th>Date</th>
-                                    <th>Details</th>
-                                    <th>In Cylinder</th>
-                                    <th>Out Cylinder</th>
-                                    <th>Cash Amount</th>
-                                    <th>Credit Amount</th>
-                                    <th>Credit Balance</th>
-                                    <th>Status</th>
+                                    <th>Transaction Details</th>
+                                    <th>Cash</th>
+                                    <th>Credit</th>
+                                    <th>Balance</th>
+                                    <th>Comments</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach($due_data as $due):?>
-                                    <tr>
-                                        <td><?php echo $due->sales_date;?></td>
-                                        <td>
-                                            <?php 
-                                                if($due->sales_type=='gas_sales'){
-                                                    echo 'Gas Refill';
-                                                }elseif($due->sales_type=='cash_received'){
-                                                    echo 'Cash Received';
-                                                }else{
-                                                    echo 'Product Details here';
-                                                }
-                                                ?>
-                                                
-                                        </td>
-                                        <td>
-                                            <?php
-                                                if($due->incoming==''){
-                                                    echo'--';
-                                                }elseif($due->incoming=='0'){
-                                                    echo "Not Received";
-                                                } 
-                                                
-                                                foreach ($cylinders as $key => $value) {
-                                                    if($key==$due->incoming){
+                                <?php foreach($due_data as $data):?>
+                                <tr>
+                                    <td><?php echo $data->date; ?></td>
+                                    <td>
+                                        <?php if($data->sales_type=='gas_sales'):?>
+                                            <div>Gas Refill</div>
+                                            <div>Incoming: 
+                                                <?php if($data->incoming_cylinder=='0'){
+                                                    echo"Not Received";
+                                                };?>
+                                                <?php foreach ($cylinders as $key => $value) {
+                                                    if($key==$data->incoming_cylinder):
                                                         echo $value;
-                                                    }
-                                                }
-                                            ?>
-                                        </td>
-                                        <td>
-                                            <?php
-                                                if($due->outgoing==''){
-                                                    echo "--";
-                                                }elseif($due->outgoing=='0'){
-                                                    echo "Not Sent";
-                                                }
-                                                foreach ($cylinders as $key => $value) {
-                                                    if($key==$due->outgoing){
+                                                    endif;
+                                                } ?>
+                                                &nbsp; Outgoing: 
+                                                <?php foreach ($cylinders as $key => $value) {
+                                                    if($key==$data->outgoing_cylinder):
                                                         echo $value;
-                                                    }
-                                                }
-                                            ?>
-                                        </td>
-                                        <td><?php echo $due->cash=='0'?'--':'Rs: '.$due->cash;?></td>
-                                        <td><?php echo $due->credit=='0'?'--':'Rs: '.$due->credit;?></td>
-                                        <td><?php echo $due->balance=='0'?'--':'Rs: '.$due->balance;?></td>
-                                        <td>
-                                            <?php 
-                                                if($due->sales_type=='gas_sales'){
-                                                     if($due->incoming=='0'){
-                                                        echo '<span class="badge-text badge-text-small danger">Pending</span>';
-                                                    }else{
-                                                        echo'<span class="badge-text badge-text-small info">Received</span>';
-                                                    }   
-                                                }
-                                            ?>
-                                        </td>    
-                                    </tr>
-                                    
+                                                    endif;
+                                                }?>
+                                            </div>
+                                        <?php elseif($data->sales_type=='product_sales'):?>
+                                            <div><?php echo $data->product_name;?></div>
+                                         <?php elseif($data->sales_type=='cash_received'):?>
+                                            <div><?php echo $data->comments;?></div>
+                                        <?php endif; ?>
+
+                                    </td>
+                                    <td><?php echo $data->cash_amount==''?'--':'Rs: '.$data->cash_amount; ?></td>
+                                    <td><?php echo $data->credit_amount==''?'--':'Rs: '.$data->credit_amount; ?></td>
+                                    <td><?php echo $data->balance==''?'--':'Rs: '.$data->balance; ?></td>
+                                    <td>
+                                        <?php if($data->incoming_cylinder=='0'){
+                                            echo"Add Comment if cylinder received";
+                                        };?>
+                                    </td>
+                                </tr>
                                 <?php endforeach;?>
+                                
                             </tbody>
                         </table>
                     </div>

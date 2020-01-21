@@ -1,5 +1,5 @@
 <?php 
-	$config['tbl_cylinders']="cylinder";
- 	$config['tbl_categories']="categories";
- 	$config['tbl_products']="products";
+	$config['tbl_cylinders']="cgs_cylinder_list";
+ 	$config['tbl_categories']="cgs_categories";
+ 	$config['tbl_products']="cgs_products";
  ?>

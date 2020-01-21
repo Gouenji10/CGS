@@ -36,7 +36,6 @@
                                     <th>Customer Name</th>
                                     <th>Address</th>
                                     <th>Phone</th>
-                                    <th><span style="width:100px;">Status</span></th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -48,20 +47,6 @@
                                     <td><a href="<?php echo base_url('customer/details/'.$customer->id);?>"><?php echo $customer->name;?></a></td>
                                     <td><?php echo $customer->address;?></td>
                                     <td><?php echo $customer->phone;?></td>
-                                    <td>
-                                        <span style="width:100px;">
-                                            <?php 
-                                            if($customer->status==1):
-                                            echo '<span class="badge-text badge-text-small info">No Due</span>';
-                                            elseif($customer->status==2):
-                                                echo '<span class="badge-text badge-text-small danger">Due</span>';
-                                            else:
-                                                echo '<span class="badge-text badge-text-small info">new</span>';
-                                            endif;
-                                            ?>
-                                            
-                                        </span>
-                                    </td>
                                     <td class="td-actions">
                                         <a href="#" data-id="<?php echo $customer->id;?>" class="edit"><i class="la la-edit"></i></a>
                                         <a href="#"><i class="la la-close delete"></i></a>

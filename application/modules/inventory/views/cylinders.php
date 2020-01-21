@@ -45,7 +45,7 @@
                                     <td><?php echo $cylinder->name;?></td>
                                     <td class="td-actions">
                                         <a href="#" class="edit" data-id="<?php echo $cylinder->id;?>"><i class="la la-edit" ></i></a>
-                                        <a href="#"><i class="la la-close delete"></i></a>
+                                        <a href="#" class="delete" data-id="<?php echo $cylinder->id;?>"><i class="la la-close"></i></a>
                                     </td>
                                 </tr>
                                 <?php $i++;?>

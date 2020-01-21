@@ -39,6 +39,20 @@ class Inventory extends Front_Controller
 		->build('index');
 	}
 
+	public function details($id){
+		$tbl_data=$this->inventory_m->getOne(config('tbl_categories'),array('id'=>$id));
+		add_hook('where','get_all_product',$this->inventory_m,'get_all_product',array($id));
+		$product_data=$this->inventory_m->getAll(config('tbl_products'));
+		remove_hook('where','get_all_product');
+		$this->template
+		->title('Inventory')
+		->set_layout('dashboard')
+		->set('page','Inventory')
+		->set('categories',$tbl_data)
+		->set('products',$product_data)
+		->build('details');	
+	}
+
 	public function products(){
 		if($this->input->post()){
 			$this->form_validation->set_rules('product_name','Product Name','required');
@@ -120,6 +134,7 @@ class Inventory extends Front_Controller
 			endif;
 		}
 	}
+
 	public function cylinders(){
 		if($this->input->post()){
 			$this->form_validation->set_rules('cylinder_name','Cylinder','required');
@@ -177,6 +192,22 @@ class Inventory extends Front_Controller
 			endif;
 		}
 	}
+
+	public function delete_cylinder(){
+		if($this->input->is_ajax_request()):
+			$id=$this->input->post('id');
+			if($this->inventory_m->delete(config('tbl_cylinders'),array('id'=>$id))):
+				echo 'ok';
+				exit;
+			else:
+				echo "Failed To delete Cylinder";
+				exit;
+			endif;
+		endif;
+		exit;
+	}
+
+
 	public function getAllCategories(){
 		$getCategories = $this->inventory_m->select('id,name')->getAll(config('tbl_categories'),null,0,array());
     	$category=array();

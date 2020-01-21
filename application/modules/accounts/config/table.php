@@ -1,4 +1,4 @@
 <?php 
-	$config['tbl_party']="party";
-	$config['tbl_transaction']="transaction";
+	$config['tbl_party']="cgs_parties";
+	$config['tbl_transaction']="cgs_parties_transaction";
  ?>

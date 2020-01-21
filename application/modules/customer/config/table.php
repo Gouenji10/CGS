@@ -1,3 +1,3 @@
 <?php 
-$config['tbl_customer']="customer";
-$config['tbl_sales_gas']="cgs_sales";
+$config['tbl_customer']="cgs_customer";
+$config['tbl_customer_transactions']='cgs_customer_transactions';
